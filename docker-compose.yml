@@ -16,6 +16,13 @@ services:
       timeout: 5s
       retries: 5
 
+  email_service:
+    build:
+      context: ./email_service
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+
   adminer:
     image: adminer
     ports:
