@@ -45,6 +45,19 @@ services:
       - backend
       - db
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - app-server
+    environment:
+      BACKEND_URL: "http://app-server:5000"
+    networks:
+      - backend
+
 networks:
   backend:
     driver: bridge
