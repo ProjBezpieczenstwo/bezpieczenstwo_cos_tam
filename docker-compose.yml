@@ -11,7 +11,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_DB=ariusDB
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ariusDB"]
+      test: ["CMD-SHELL", "pg_isready -U health"]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -55,6 +55,7 @@ services:
       - app-server
     environment:
       BACKEND_URL: "http://app-server:5000"
+      SECRET_KEY: "your_app_secret"
     networks:
       - backend
 
