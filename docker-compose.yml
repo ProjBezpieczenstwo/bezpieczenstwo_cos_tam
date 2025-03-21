@@ -55,7 +55,6 @@ services:
       - app-server
     environment:
       BACKEND_URL: "http://app-server:5000"
-      SECRET_KEY: "your_app_secret"
     networks:
       - backend
 
