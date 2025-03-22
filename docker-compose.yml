@@ -27,11 +27,6 @@ services:
     networks:
       - backend
 
-  adminer:
-    image: adminer
-    ports:
-      - 8080:8080
-
   app-server:
     build:
       context: ./app
