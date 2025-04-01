@@ -1,6 +1,7 @@
 services:
   postgres:
-    image: postgres:17-alpine
+    image: postgres:15-alpine
+    platform: linux/amd64
     container_name: postgresDB
     ports:
       - 5432:5432
