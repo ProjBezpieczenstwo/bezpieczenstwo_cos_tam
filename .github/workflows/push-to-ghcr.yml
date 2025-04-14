@@ -16,8 +16,12 @@ jobs:
     - name: Log in to GHCR
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    - name: Build Docker image
-      run: docker build -t ghcr.io/projbezpieczenstwo/bezpieczenstwo_cos_tam:latest .
+    - name: Set up Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker-compose
 
-    - name: Push Docker image to GHCR
-      run: docker push ghcr.io/projbezpieczenstwo/bezpieczenstwo_cos_tam:latest
+    - name: Build and push Docker image using Docker Compose
+      run: |
+        docker-compose -f docker-compose.yml build
+        docker-compose -f docker-compose.yml push
