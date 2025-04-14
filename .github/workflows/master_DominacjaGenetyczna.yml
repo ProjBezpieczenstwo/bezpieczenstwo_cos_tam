@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_e769479ea00543528649efe4e48abbd4 }}/appsvc/staticsite:${{ github.sha }}
+        tags: mcr.microsoft.com/dominacjagenetyczna/appsvc/staticsite:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'DominacjaGenetyczna'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_67da5b7a16cc486ca821a6581b2a64e6 }}
-        images: 'mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_e769479ea00543528649efe4e48abbd4 }}/appsvc/staticsite:${{ github.sha }}'
+        images: 'mcr.microsoft.com/dominacjagenetyczna/appsvc/staticsite:${{ github.sha }}'
