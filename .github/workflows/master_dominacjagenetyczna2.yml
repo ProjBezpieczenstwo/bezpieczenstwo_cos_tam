@@ -1,35 +1,23 @@
-name: Deploy app using Docker Compose on Azure VM
+name: Build & Push Docker Image to GHCR
 
 on:
   push:
     branches:
       - master
-  workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Copy project files to Azure VM
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.AZURE_VM_HOST }}
-        username: ${{ secrets.AZURE_VM_USER }}
-        key: ${{ secrets.AZURE_VM_SSH_KEY }}
-        source: "."
-        target: "~/app"
+    - name: Log in to GHCR
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    - name: Run docker-compose on Azure VM
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.AZURE_VM_HOST }}
-        username: ${{ secrets.AZURE_VM_USER }}
-        key: ${{ secrets.AZURE_VM_SSH_KEY }}
-        script: |
-          cd ~/app
-          docker-compose pull
-          docker-compose up -d --build
+    - name: Build Docker image
+      run: docker build -t ghcr.io/${{ github.repository }}:latest .
+
+    - name: Push Docker image to GHCR
+      run: docker push ghcr.io/${{ github.repository }}:latest
