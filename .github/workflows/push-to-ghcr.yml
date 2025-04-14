@@ -19,9 +19,22 @@ jobs:
     - name: Set up Docker Compose
       run: |
         sudo apt-get update
-        sudo apt-get install docker-compose
+        sudo apt-get install -y docker-compose
 
-    - name: Build and push Docker image using Docker Compose
+    - name: Build Docker images using Docker Compose
       run: |
         docker-compose -f docker-compose.yml build
-        docker-compose -f docker-compose.yml push
+
+    - name: Tag Docker images for GHCR
+      run: |
+        # Pobierz nazwę repozytorium GitHub
+        REPO_NAME=$(basename $GITHUB_REPOSITORY)
+        
+        # Taguj obrazy
+        docker tag ${REPO_NAME}_web:latest ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:latest
+        docker tag ${REPO_NAME}_web:latest ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:${GITHUB_SHA}
+
+    - name: Push Docker images to GHCR
+      run: |
+        docker push ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:latest
+        docker push ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:${GITHUB_SHA}
