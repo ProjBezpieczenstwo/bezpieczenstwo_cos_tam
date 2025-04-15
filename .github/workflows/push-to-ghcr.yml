@@ -31,10 +31,10 @@ jobs:
         REPO_NAME=$(basename $GITHUB_REPOSITORY)
         
         # Taguj obrazy
-        docker tag ${REPO_NAME}_web:latest ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:latest
-        docker tag ${REPO_NAME}_web:latest ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:${GITHUB_SHA}
+        docker tag ${REPO_NAME}_web:latest ghcr.io/projbezpieczenstwo/${REPO_NAME}:latest
+        docker tag ${REPO_NAME}_web:latest ghcr.io/projbezpieczenstwo/${REPO_NAME}:${GITHUB_SHA}
 
     - name: Push Docker images to GHCR
       run: |
-        docker push ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:latest
-        docker push ghcr.io/${GITHUB_ACTOR}/${REPO_NAME}:${GITHUB_SHA}
+        docker push ghcr.io/projbezpieczenstwo/${REPO_NAME}:latest
+        docker push ghcr.io/projbezpieczenstwo/${REPO_NAME}:${GITHUB_SHA}
